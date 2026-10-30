@@ -1,0 +1,3 @@
+[submodule "partner-force-infra"]
+	path = partner-force-infra
+	url = https://github.com/kyle-henry/pf-schema-bump-spike-infra.git

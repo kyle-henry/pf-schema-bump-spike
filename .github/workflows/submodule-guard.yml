@@ -1,0 +1,21 @@
+name: Submodule guard
+on:
+  pull_request:
+    branches: [ main, 'schema/bump-**' ]
+permissions: {}
+jobs:
+  guard:
+    name: Submodule guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Stand-in check
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+          FAIL_BRANCHES: ${{ vars.FAIL_GUARD }}
+          PEND_BRANCHES: ${{ vars.PEND_GUARD }}
+        run: |
+          echo "base=$BASE_REF head=$HEAD_REF"
+          if [[ ",$PEND_BRANCHES," == *",$HEAD_REF,"* ]]; then sleep 840; fi
+          if [[ ",$FAIL_BRANCHES," == *",$HEAD_REF,"* ]]; then echo "forced failure"; exit 1; fi
